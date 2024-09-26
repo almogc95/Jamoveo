@@ -1,0 +1,28 @@
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+  /*prevent horizontal scrolling */
+}
+
+#root {
+  width: 360px;
+  /*adjust the root container */
+  height: 640px;
+  overflow: hidden;
+  /*prevents scrolling */
+}
+
+@media (max-width: 600px) {
+  .container {
+    padding: 10px;
+    font-size: 14px;
+  }
+}
+
+img {
+  width: 100%;
+  height: auto;
+}
