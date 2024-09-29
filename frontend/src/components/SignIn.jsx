@@ -14,8 +14,7 @@ import Alert from '@mui/material/Alert';
 import { AuthContext } from '../../src/context/AuthContext';
 
 //import axios
-import axios from 'axios';
-axios.defaults.baseURL = 'http://127.0.0.1:8080/';
+import axios from '../axiosHTTPrequests';
 
 
 const SignIn = () => {
