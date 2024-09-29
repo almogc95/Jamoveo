@@ -12,10 +12,10 @@ import CardActionArea from '@mui/material/CardActionArea';
 import { io } from 'socket.io-client';
 
 //import axios
-import axios from 'axios';
-axios.defaults.baseURL = 'http://127.0.0.1:8080/';
+import axios from '../axiosHTTPrequests';
 
-const socket = io('http://127.0.0.1:8080');
+const socket = io(process.env.NODE_ENV === 'production' ? 'https://jamoveo-frontend-2usd.onrender.com' : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
+
 
 const CardsSongs = (props) => {
     const navigate = useNavigate();
@@ -31,7 +31,7 @@ const CardsSongs = (props) => {
             //navigate to LivePage according to the selected song
             return navigate(`/LivePage/${props.songId}`);
         } catch (err) {
-            console.log(err.response.data);
+            console.log(err.response ? err.response.data : err);
         }
     };
     return (
