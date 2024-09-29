@@ -3,7 +3,7 @@ import { user_schema } from "../models/user_details.js";
 import { admin_schema } from "../models/admin_details.js";
 import { validationResult } from "express-validator";
 
-// Import JSON files
+//import JSON files
 import heyJudeLyrics from "../data/hey_jude.json" assert { type: 'json' };
 import veechSheloLyrics from "../data/veech_shelo.json" assert { type: 'json' };
 
@@ -20,7 +20,7 @@ const songs = [
     { songId: 5, songName: 'Hotel California', songArtist: 'Eagles', songLyrics: veechSheloLyrics }, //add this to large the data
 ];
 
-// SignUp user
+//SignUp user
 export const handleSignUp = async (req, res) => {
     //check for validation errors
     const errors = validationResult(req);
@@ -32,26 +32,26 @@ export const handleSignUp = async (req, res) => {
     const { username, password, instrument } = req.body;
     console.log(req.body);
     try {
-        // Check for missing fields
+        //check for missing fields
         if (!username || !password || !instrument) {
             return res.status(400).json({ msg: 'All fields are required' });
         }
 
-        // Check if user already exists
+        //check if user already exists
         let user = await UserModel.findOne({ username });
 
         if (user) {
             return res.status(400).json({ msg: 'User already exists' });
         }
 
-        // Create new user
+        //create new user
         const newUser = new UserModel({
             userName: username,
             userPassword: password,
             userInstrument: instrument,
         });
         console.log(newUser);
-        await newUser.save(); // Save user to the database
+        await newUser.save(); //save user to the database
 
         res.status(201).json({ msg: 'User registered successfully' });
     } catch (error) {
