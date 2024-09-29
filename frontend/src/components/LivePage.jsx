@@ -15,10 +15,9 @@ import { AuthContext } from '../context/AuthContext';
 import { AuthContextAdmin } from '../../src/context/AuthContextAdmin';
 
 //import axios
-import axios from 'axios';
-axios.defaults.baseURL = 'http://127.0.0.1:8080/';
+import axios from '../axiosHTTPrequests';
 
-const socket = io('http://127.0.0.1:8080');
+const socket = io(process.env.NODE_ENV === 'production' ? 'https://jamoveo-frontend-2usd.onrender.com' : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
 
 const LivePage = () => {
     const navigate = useNavigate();
