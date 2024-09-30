@@ -4,7 +4,7 @@ const createServer = (server) => {
     // Initialize Socket.IO with CORS settings
     const io = new Server(server, {
         cors: {
-            origin: "http://localhost:3000", // Allow requests from the frontend
+            origin: "https://jamoveo-frontend-s3iw.onrender.com", // Allow requests from the frontend
             methods: ["GET", "POST"]
         }
     });

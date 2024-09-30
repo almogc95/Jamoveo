@@ -12,7 +12,7 @@ import { AuthContext } from '../context/AuthContext';
 import { io } from 'socket.io-client';
 
 //initialize socket connection
-const socket = io.connect(process.env.NODE_ENV === 'production' ? 'https://jamoveo-frontend-2usd.onrender.com' : 'http://localhost:8080')
+const socket = io.connect(process.env.NODE_ENV === 'production' ? 'https://jamoveo-backend-al1u.onrender.com' : 'http://localhost:8080')
 
 const MainPagePlayer = () => {
     const { user } = useContext(AuthContext); //getting the data about the user from context

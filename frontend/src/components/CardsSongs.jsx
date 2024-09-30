@@ -14,7 +14,7 @@ import { io } from 'socket.io-client';
 //import axios
 import axios from '../axiosHTTPrequests';
 
-const socket = io(process.env.NODE_ENV === 'production' ? 'https://jamoveo-frontend-2usd.onrender.com' : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
+const socket = io(process.env.NODE_ENV === 'production' ? 'https://jamoveo-backend-al1u.onrender.com' : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
 
 
 const CardsSongs = (props) => {
