@@ -35,7 +35,9 @@ mongoose.connection.on('error', (err) => {
 });
 
 
-app.use(cors()); //CORS setup 
+app.use(cors({
+    origin: 'https://jamoveo-frontend-s3iw.onrender.com'
+})); //CORS setup 
 app.use(express.static(path.join(__dirname, 'public'))); //middleware for handling access to files in the public folder
 app.use(express.urlencoded({ extended: true })); //middleware for handling POST requests
 app.use(express.json()); //middleware for convert data to JSON

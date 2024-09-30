@@ -91,7 +91,7 @@ const SignInAdmin = () => {
         }
 
         try {
-            const res = await axios.post("/SignInAdmin", formData);
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignInAdmin`, formData);
             if (res.data?.msg === "Admin does not exist") {
                 setFlag(true);
                 return setText("Admin does not exist");

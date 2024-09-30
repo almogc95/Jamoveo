@@ -48,7 +48,7 @@ const MainPageAdmin = () => {
         }
 
         try {
-            const res = await axios.get("/ResultsPageAdmin", { params: { song: formDataSearch.searchData } });
+            const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/ResultsPageAdmin`, { params: { song: formDataSearch.searchData } });
             setFormDataSearch(initialFormDataSearch);
 
             //navigate to ResultsPageAdmin and pass search results

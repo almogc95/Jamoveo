@@ -90,7 +90,7 @@ const SignIn = () => {
             return;
         }
         try {
-            const res = await axios.post("/SignIn", formData);
+            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData);
             if (res.data?.msg === "User does not exist") {
                 setFlag(true);
                 return setText("User does not exist");
