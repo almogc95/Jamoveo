@@ -44,40 +44,6 @@ const SignUp = () => {
         });
     };
 
-    const handleErrors = (err) => {
-        setUserNameError(false);
-        setUserPasswordError(false);
-        setUserInstrumentError(false);
-
-        if (err.response?.data) {
-            const { errors, msg } = err.response.data;
-
-            if (msg) {
-                // Display the error message returned from the server
-                setText(msg);
-                setFlag(true);
-                return;
-            }
-
-            if (errors) {
-                errors.forEach(error => {
-                    if (error.param === "username") {
-                        setUserNameError(true);
-                    } else if (error.param === "password") {
-                        setUserPasswordError(true);
-                    } else if (error.param === "instrument") {
-                        setUserInstrumentError(true);
-                    }
-                });
-                setText("Validation errors occurred");
-                setFlag(true);
-            }
-        } else {
-            setText("Oops! Something went wrong");
-            setFlag(true);
-        }
-    };
-
     const handleSubmit = async (e) => {
         e.preventDefault();
         setUserNameError(!formData.username);
@@ -89,10 +55,13 @@ const SignUp = () => {
             setFlag(true);
             return;
         }
-
         try {
             const res = await axios.post("/SignUp", formData);
-            if (res.status === 201) {
+            if (res.data?.msg === "User already exists") {
+                setFlag(true);
+                return setText("User already exists");
+            }
+            else {
                 signUp(formData.username, formData.password, formData.instrument);
                 setFormData(initialFormData);
                 return navigate("/SignIn");
@@ -102,6 +71,59 @@ const SignUp = () => {
             console.log(err.response.data);
         }
     };
+
+    const handleErrors = (err) => {
+        console.log("Error");
+
+        setFlag(true);
+        setUserNameError(false);
+        setUserPasswordError(false);
+        setUserInstrumentError(false);
+
+        if (err.response?.data && err.response?.data.errors) {
+            const errors = err.response.data.errors;
+            console.log(errors);
+            let errMsg = "";
+
+            if (errors.length > 1) {
+                for (let error of errors) {
+                    const errorMsg = error.msg;
+                    if (error.param === "username") {
+                        setUserNameError(true);
+                        errMsg += `${errorMsg}\n`;
+                    }
+                    else if (error.param === "password") {
+                        setUserPasswordError(true);
+                        errMsg += `${errorMsg}\n`;
+                    }
+                    //instrument
+                    else if (error.param === "instrument") {
+                        setUserInstrumentError(true);
+                        errMsg += `${errorMsg}\n`;
+                    }
+                }
+            }
+            else {
+                if (errors[0].param === "username") {
+                    setUserNameError(true);
+                }
+                else if (errors[0].param === "password") {
+                    setUserPasswordError(true);
+                }
+                //instrument
+                else if (errors[0].param === "instrument") {
+                    setUserInstrumentError(true);
+                }
+                errMsg = errors[0].msg;
+            }
+            setText(errMsg);
+        }
+        else {
+            setText("Oops! Something went wrong");
+        }
+    };
+
+
 
     return (
         <>
@@ -167,6 +189,7 @@ const SignUp = () => {
                         label="instrument"
                         error={userInstrumentError}
                         onChange={handleChange}
+                        sx={{ textAlign: 'left' }}
                     >
                         <MenuItem value="Drums">Drums</MenuItem>
                         <MenuItem value="Guitars">Guitars</MenuItem>

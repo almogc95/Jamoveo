@@ -40,31 +40,44 @@ const SignUpAdmin = () => {
     };
 
     const handleErrors = (err) => {
+        setFlag(true);
         setAdminNameError(false);
         setAdminPasswordError(false);
 
-        if (err.response.data.errors) {
-            //handle validation errors
+        if (err.response?.data && err.response?.data.errors) {
             const errors = err.response.data.errors;
+            console.log(errors);
             let errMsg = "";
 
-            errors.forEach(error => {
-                if (error.param === "adminname") {
+            if (errors.length > 1) {
+                for (let error of errors) {
+                    const errorMsg = error.msg;
+                    if (error.param === "adminname") {
+                        setAdminNameError(true);
+                        errMsg += `${errorMsg}\n`;
+                    }
+                    //password
+                    else {
+                        setAdminPasswordError(true);
+                        errMsg += `${errorMsg}\n`;
+                    }
+                }
+            }
+            else {
+                if (errors[0].param === "adminname") {
                     setAdminNameError(true);
-                } else if (error.param === "adminpassword") {
+                }
+                //password
+                else {
                     setAdminPasswordError(true);
                 }
-                errMsg += `${error.msg}\n`;
-            });
-
+                errMsg = errors[0].msg;
+            }
             setText(errMsg);
-            setFlag(true); //show the alert
-        }
-        else {
+        } else {
             setText("Oops! Something went wrong");
-            setFlag(true);
         }
-    }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -79,7 +92,11 @@ const SignUpAdmin = () => {
 
         try {
             const res = await axios.post("/SignUpAdmin", formData);
-            if (res.status === 201) {
+            if (res.data?.msg === "Admin already exists") {
+                setFlag(true);
+                return setText("Admin already exists")
+            }
+            else {
                 signUpAdmin(formData.adminname, formData.adminpassword, res.data.adminrole);
                 setFormData(initialFormData);
                 return navigate("/SignInAdmin");

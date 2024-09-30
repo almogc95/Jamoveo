@@ -39,35 +39,48 @@ const SignInAdmin = () => {
     };
 
     const handleErrors = (err) => {
+        setFlag(true);
         setAdminNameError(false);
         setAdminPasswordError(false);
 
         if (err.response?.data && err.response?.data.errors) {
-            //handle validation errors
             const errors = err.response.data.errors;
+            console.log(errors);
             let errMsg = "";
 
-            errors.forEach(error => {
-                if (error.param === "adminname") {
+            if (errors.length > 1) {
+                for (let error of errors) {
+                    const errorMsg = error.msg;
+                    if (error.param === "adminname") {
+                        setAdminNameError(true);
+                        errMsg += `${errorMsg}\n`;
+                    }
+                    //password
+                    else {
+                        setAdminPasswordError(true);
+                        errMsg += `${errorMsg}\n`;
+                    }
+                }
+            }
+            else {
+                if (errors[0].param === "adminname") {
                     setAdminNameError(true);
-                } else if (error.param === "adminpassword") {
+                }
+                //password
+                else {
                     setAdminPasswordError(true);
                 }
-                errMsg += `${error.msg}\n`;
-            });
-
+                errMsg = errors[0].msg;
+            }
             setText(errMsg);
-            setFlag(true); //show the alert
-        }
-        else {
+        } else {
             setText("Oops! Something went wrong");
-            setFlag(true);
         }
-    }
+    };
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         setAdminNameError(!formData.adminname);
         setAdminPasswordError(!formData.adminpassword);
 
@@ -79,10 +92,18 @@ const SignInAdmin = () => {
 
         try {
             const res = await axios.post("/SignInAdmin", formData);
-            if (res.status === 201) {
+            if (res.data?.msg === "Admin does not exist") {
+                setFlag(true);
+                return setText("Admin does not exist");
+            }
+            else if (res.data?.msg === "Password does not match") {
+                setFlag(true);
+                return setText("Password does not match");
+            }
+            else {
                 adminLogin(res.data?.adminname, res.data?.adminpassword);
                 setFormData(initialFormData);
-                return navigate("/MainPageAdmin")
+                return navigate("/MainPageAdmin");
             }
         } catch (err) {
             handleErrors(err);

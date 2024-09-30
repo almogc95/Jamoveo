@@ -42,7 +42,6 @@ const LivePage = () => {
     //handle the quit event broadcasted from the server
     useEffect(() => {
         socket.on('quitGame', () => {
-            console.log('a');
             //redirect to main page when the quit event is received
             flag ? navigate("/MainPageAdmin") : navigate("/MainPagePlayer")
         });
@@ -55,7 +54,6 @@ const LivePage = () => {
 
     //function to handle admin quitting the game
     const handleQuit = () => {
-        console.log('b');
         socket.emit('adminQuit'); // Emit 'adminQuit' event from admin
     };
 

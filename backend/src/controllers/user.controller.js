@@ -22,26 +22,18 @@ const songs = [
 
 //SignUp user
 export const handleSignUp = async (req, res) => {
-    //check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        //return validation errors
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     const { username, password, instrument } = req.body;
-    console.log(req.body);
     try {
         //check for missing fields
         if (!username || !password || !instrument) {
-            return res.status(400).json({ msg: 'All fields are required' });
+            return res.send({ msg: 'All fields are required' });
         }
 
         //check if user already exists
-        let user = await UserModel.findOne({ username });
+        let user = await UserModel.findOne({ userName: username });
 
         if (user) {
-            return res.status(400).json({ msg: 'User already exists' });
+            return res.send({ msg: 'User already exists' });
         }
 
         //create new user
@@ -52,12 +44,8 @@ export const handleSignUp = async (req, res) => {
         });
         console.log(newUser);
         await newUser.save(); //save user to the database
-
-        res.status(201).json({ msg: 'User registered successfully' });
+        res.send({ msg: 'User registered successfully' });
     } catch (error) {
-        if (error.code === 11000) { //mongoDB duplicate key error code
-            return res.status(400).json({ msg: 'User already exists with this email' });
-        }
         console.error(error.message);
         res.status(500).send('Server Error');
     }
@@ -65,29 +53,22 @@ export const handleSignUp = async (req, res) => {
 
 //SignIn user
 export const handleSignIn = async (req, res) => {
-    //check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        //return validation errors
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     const { username, password } = req.body;
     try {
         // Check for missing fields
         if (!username || !password) {
-            return res.status(400).json({ msg: 'All fields are required' });
+            return res.send({ msg: 'All fields are required' });
         }
 
         // Check if user exists 
         const user = await UserModel.findOne({ userName: username });
         if (!user) {
-            return res.status(400).json({ msg: 'User does not exist' });
+            return res.send({ msg: 'User does not exist' });
         }
 
         //Check if password correct
         if (password !== user.userPassword) {
-            return res.status(400).json({ msg: 'Password does not match' });
+            return res.send({ msg: 'Password does not match' });
         }
 
         res.status(201).json({
@@ -105,26 +86,19 @@ export const handleSignIn = async (req, res) => {
 
 //SignUp admin
 export const handleSignUpAdmin = async (req, res) => {
-    //check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        //return validation errors
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     const { adminname, adminpassword } = req.body;
 
     try {
         //check for missing fields
         if (!adminname || !adminpassword) {
-            return res.status(400).json({ msg: 'All fields are required' });
+            return res.send({ msg: 'All fields are required' });
         }
 
         //check if user already exists
-        const admin = await AdminModel.findOne({ adminname });
+        const admin = await AdminModel.findOne({ adminName: adminname });
 
         if (admin) {
-            return res.status(400).json({ msg: 'Admin already exists' });
+            return res.send({ msg: 'Admin already exists' });
         }
 
         // Create new user
@@ -132,43 +106,31 @@ export const handleSignUpAdmin = async (req, res) => {
             adminName: adminname,
             adminPassword: adminpassword,
         });
-        console.log(newAdmin);
         await newAdmin.save(); //save user to the database
-
-        res.status(201).json({ msg: 'Admin registered successfully' });
+        res.send({ msg: 'Admin registered successfully' });
     } catch (error) {
-        if (error.code === 11000) { //mongoDB duplicate key error code
-            return res.status(400).json({ msg: 'Admin already exists with this email' });
-        }
         res.status(500).send('Server Error');
     }
 };
 
 //SignIn admin
 export const handleSignInAdmin = async (req, res) => {
-    //check for validation errors
-    const errors = validationResult(req);
-    if (!errors.isEmpty()) {
-        //return validation errors
-        return res.status(400).json({ errors: errors.array() });
-    }
-
     const { adminname, adminpassword } = req.body;
     try {
         //check for missing fields
         if (!adminname || !adminpassword) {
-            return res.status(400).json({ msg: 'All fields are required' });
+            return res.send({ msg: 'All fields are required' });
         }
 
         //check if admin exists 
         const admin = await AdminModel.findOne({ adminName: adminname });
         if (!admin) {
-            return res.status(400).json({ msg: 'User does not exist' });
+            return res.send({ msg: 'Admin does not exist' });
         }
 
         //Check if password correct
         if (adminpassword !== admin.adminPassword) {
-            return res.status(400).json({ msg: 'Password does not match' });
+            return res.send({ msg: 'Password does not match' });
         }
 
         res.status(201).json({

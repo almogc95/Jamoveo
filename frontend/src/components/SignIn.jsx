@@ -32,35 +32,44 @@ const SignIn = () => {
     const navigate = useNavigate();
 
     const handleErrors = (err) => {
+        setFlag(true);
         setUserNameError(false);
         setUserPasswordError(false);
 
-        if (err.response?.data) {
-            // Check if there are validation errors
-            if (err.response.data.errors) {
-                const errors = err.response.data.errors;
-                let errMsg = "";
+        if (err.response?.data && err.response?.data.errors) {
+            const errors = err.response.data.errors;
+            console.log(errors);
+            let errMsg = "";
 
-                errors.forEach(error => {
+            if (errors.length > 1) {
+                for (let error of errors) {
+                    const errorMsg = error.msg;
                     if (error.param === "username") {
                         setUserNameError(true);
-                    } else if (error.param === "password") {
-                        setUserPasswordError(true);
+                        errMsg += `${errorMsg}\n`;
                     }
-                    errMsg += `${error.msg}\n`; // Accumulate error messages
-                });
-
-                setText(errMsg);
-            } else {
-                // Handle other types of errors
-                setText(err.response.data.msg || "Oops! Something went wrong"); // Ensure proper messaging
+                    //password
+                    else {
+                        setUserPasswordError(true);
+                        errMsg += `${errorMsg}\n`;
+                    }
+                }
             }
-            setFlag(true); // Show the alert
+            else {
+                if (errors[0].param === "username") {
+                    setUserNameError(true);
+                }
+                //password
+                else {
+                    setUserPasswordError(true);
+                }
+                errMsg = errors[0].msg;
+            }
+            setText(errMsg);
         } else {
             setText("Oops! Something went wrong");
-            setFlag(true);
         }
-    }
+    };
 
     const handleChange = (e) => {
         setFormData({
@@ -74,12 +83,26 @@ const SignIn = () => {
         e.preventDefault();
         setUserNameError(!formData.username);
         setUserPasswordError(!formData.password);
+
+        if (!formData.username || !formData.password) {
+            setText("Oops! Looks like some of the fields are empty");
+            setFlag(true);
+            return;
+        }
         try {
             const res = await axios.post("/SignIn", formData);
-            if (res.status === 201) {
+            if (res.data?.msg === "User does not exist") {
+                setFlag(true);
+                return setText("User does not exist");
+            }
+            else if (res.data?.msg === "Password does not match") {
+                setFlag(true);
+                return setText("Password does not match");
+            }
+            else {
                 login(res.data?.username, res.data?.password, res.data?.instrument);
                 setFormData(initialFormData);
-                return navigate("/MainPagePlayer")
+                return navigate("/MainPagePlayer");
             }
         } catch (err) {
             handleErrors(err);

@@ -34,25 +34,14 @@ mongoose.connection.on('error', (err) => {
     console.error(`MongoDB connection error: ${err}`);
 });
 
-//CORS setup 
-app.use(cors({
-    origin: 'https://jamoveo-frontend-2usd.onrender.com' //react app's deployed URL
-}));
 
+app.use(cors()); //CORS setup 
+app.use(express.static(path.join(__dirname, 'public'))); //middleware for handling access to files in the public folder
 app.use(express.urlencoded({ extended: true })); //middleware for handling POST requests
 app.use(express.json()); //middleware for convert data to JSON
 app.use('/', router); //server routes
 
-if (process.env.NODE_ENV === 'production') {
-    app.use(express.static('client/build'));
 
-    app.get('*', (req, res) => {
-        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
-    });
-}
-
-//middleware for handling access to files in the public folder
-app.use(express.static(path.join(__dirname, 'public')));
 
 server.listen(PORT, () => console.log(`Listen on port ${PORT}`));
 createServer(server);

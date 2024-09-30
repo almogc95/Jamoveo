@@ -9,7 +9,7 @@ const initAdmin = {
 
 const getInitialStateAdmin = () => {
     const admin = localStorage.getItem("user");
-    console.log("Local storage user", admin)
+    console.log("Local storage admin", admin)
     return admin ? JSON.parse(admin) : initAdmin;
 }
 
