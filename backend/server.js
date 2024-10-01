@@ -42,7 +42,6 @@ app.use(cors({
     credentials: true,
 
 })); //CORS setup 
-app.options('*', cors()); //handle preflight requests for all routes
 app.use(express.static(path.join(__dirname, 'public'))); //middleware for handling access to files in the public folder
 app.use(express.urlencoded({ extended: true })); //middleware for handling POST requests
 app.use(express.json()); //middleware for convert data to JSON

@@ -80,7 +80,6 @@ const SignIn = () => {
     };
 
     const handleSubmit = async (e) => {
-        console.log("user::", formData);
         e.preventDefault();
         setUserNameError(!formData.username);
         setUserPasswordError(!formData.password);
