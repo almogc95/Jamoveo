@@ -34,13 +34,6 @@ mongoose.connection.on('error', (err) => {
     console.error(`MongoDB connection error: ${err}`);
 });
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', 'https://jamoveo-frontend-s3iw.onrender.com');
-    res.setHeader('Access-Control-Allow-Methods', '*');
-    res.setHeader('Access-Control-Allow-Headers', '*');
-    res.setHeader('Access-Control-Allow-Credentials', 'true');
-    next();
-});
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
