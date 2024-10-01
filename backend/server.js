@@ -35,7 +35,10 @@ mongoose.connection.on('error', (err) => {
 });
 
 app.use((req, res, next) => {
-    console.log('Request Origin:', req.headers.origin); // Log the request origin
+    res.setHeader('Access-Control-Allow-Origin', 'https://jamoveo-frontend-s3iw.onrender.com');
+    res.setHeader('Access-Control-Allow-Methods', '*');
+    res.setHeader('Access-Control-Allow-Headers', '*');
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
     next();
 });
 app.use(cors({
