@@ -92,7 +92,8 @@ const SignIn = () => {
         try {
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData, {
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    withCredentials: true,
                 },
             });
             if (res.data?.msg === "User does not exist") {
