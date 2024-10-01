@@ -34,13 +34,15 @@ mongoose.connection.on('error', (err) => {
     console.error(`MongoDB connection error: ${err}`);
 });
 
+
+//CORS setup 
 app.use(cors({
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
 
-})); //CORS setup 
+})); 
 app.use(express.static(path.join(__dirname, 'public'))); //middleware for handling access to files in the public folder
 app.use(express.urlencoded({ extended: true })); //middleware for handling POST requests
 app.use(express.json()); //middleware for convert data to JSON
