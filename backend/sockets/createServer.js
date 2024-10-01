@@ -4,8 +4,9 @@ const createServer = (server) => {
     // Initialize Socket.IO with CORS settings
     const io = new Server(server, {
         cors: {
-            origin: "https://jamoveo-frontend-s3iw.onrender.com", // Allow requests from the frontend
-            methods: ["GET", "POST"]
+            origin: "https://jamoveo-frontend-s3iw.onrender.com", //allow requests from the frontend
+            methods: ["GET", "POST"],
+            credentials: true
         }
     });
 
@@ -13,7 +14,7 @@ const createServer = (server) => {
     io.on('connection', (socket) => {
         console.log(`User connected: ${socket.id}`);
 
-        //Listen for the admin quit event and broadcast it to all users
+        //listen for the admin quit event and broadcast it to all users
         socket.on('adminSelectSong', (data) => {
             console.log('Admin selected a song:', data);
             //Broadcast the selected song to all connected users

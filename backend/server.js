@@ -44,7 +44,5 @@ app.use(express.urlencoded({ extended: true })); //middleware for handling POST 
 app.use(express.json()); //middleware for convert data to JSON
 app.use('/', router); //server routes
 
-
-
-server.listen(PORT, () => console.log(`Listen on port ${PORT}`));
 createServer(server);
+server.listen(PORT, () => console.log(`Listen on port ${PORT}`));
