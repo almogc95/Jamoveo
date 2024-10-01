@@ -123,8 +123,6 @@ const SignUp = () => {
         }
     };
 
-
-
     return (
         <>
             <Box
