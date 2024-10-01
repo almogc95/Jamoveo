@@ -93,7 +93,7 @@ const SignIn = () => {
             const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData, {
                 headers: {
                     'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': 'https://jamoveo-backend-al1u.onrender.com/',
+                    'Access-Control-Allow-Origin': 'https://jamoveo-backend-al1u.onrender.com/SignIn',
                     withCredentials: true,
                 },
             });
