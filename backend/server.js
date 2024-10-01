@@ -39,7 +39,7 @@ app.use((req, res, next) => {
     next();
 });
 app.use(cors({
-    origin: 'https://jamoveo-frontend-s3iw.onrender.com',
+    origin: '*',
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
