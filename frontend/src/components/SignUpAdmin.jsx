@@ -91,7 +91,9 @@ const SignUpAdmin = () => {
         }
 
         try {
-            const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignUpAdmin`, formData);
+            // const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignUpAdmin`, formData); //TODO
+            const res = await axios.post(`/SignUpAdmin`, formData);
+
             if (res.data?.msg === "Admin already exists") {
                 setFlag(true);
                 return setText("Admin already exists")

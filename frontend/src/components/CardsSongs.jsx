@@ -24,7 +24,8 @@ const CardsSongs = (props) => {
     const handleClick = async (e) => {
         e.preventDefault();
         try {
-            await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${props.songId}`);
+            // await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${props.songId}`); //TODO
+            await axios.get(`/LivePage/${props.songId}`); //TODO
             const songData = { songId: props.songId, songName: props.songName, songArtist: props.songArtist, songImage: props.songImage }
             //emit an event to all connected users to navigate to the selected song
             socket.emit('adminSelectSong', songData);
