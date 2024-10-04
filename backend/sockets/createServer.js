@@ -7,7 +7,8 @@ const createServer = (server) => {
             // origin: "https://jamoveo-frontend-s3iw.onrender.com/",  //allow requests from the frontend TODO
             origin: "*", //allow requests from the frontend TODO
             methods: ["GET", "POST"],
-            credentials: true
+            credentials: true,
+            allowedHeaders: ["Access-Control-Allow-Origin", "Authorization", "Content-Type"],  //include allowed headers
         }
     });
 
