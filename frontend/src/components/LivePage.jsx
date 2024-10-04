@@ -59,10 +59,13 @@ const LivePage = () => {
 
     useEffect(() => {
         const fetchSong = async () => {
-            try {
-                // const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${songId}`); //TODO
-                const res = await axios.get(`/LivePage/${songId}`);
 
+            try {
+                let res;
+                //check if the project is in version production or development
+                process.env.NODE_ENV === 'production' ?
+                    res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${songId}`) :
+                    res = await axios.get(`/LivePage/${songId}`);
                 setSong(res.data); // Set the song data in state
             } catch (err) {
                 setError(err.response.data.message); // Set error message if song is not found

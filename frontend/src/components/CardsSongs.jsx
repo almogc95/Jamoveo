@@ -24,8 +24,7 @@ const CardsSongs = (props) => {
     const handleClick = async (e) => {
         e.preventDefault();
         try {
-            // await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${props.songId}`); //TODO
-            await axios.get(`/LivePage/${props.songId}`); //TODO
+            process.env.NODE_ENV === 'production' ? await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${props.songId}`) : await axios.get(`/LivePage/${props.songId}`); //check if the project is in version production or development
             const songData = { songId: props.songId, songName: props.songName, songArtist: props.songArtist, songImage: props.songImage }
             //emit an event to all connected users to navigate to the selected song
             socket.emit('adminSelectSong', songData);

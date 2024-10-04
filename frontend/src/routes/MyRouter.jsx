@@ -30,7 +30,7 @@ function MyRouter() {
                     <Route path='/MainPageAdmin' element={<MainPageAdmin />}></Route>
                     <Route path='/ResultsPageAdmin' element={<ResultsPageAdmin />}></Route>
                     <Route path='/LivePage/:songId' element={<LivePage />}></Route>
-                    <Route path="*" element={<NotFoundPage />}></Route> TODO
+                    <Route path="*" element={<NotFoundPage />}></Route>
                 </Routes>
             </Router>
         </>

@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
 import { user_schema } from "../models/user_details.js";
 import { admin_schema } from "../models/admin_details.js";
-import { validationResult } from "express-validator";
 
 //import JSON files
 import heyJudeLyrics from "../data/hey_jude.json" assert { type: 'json' };

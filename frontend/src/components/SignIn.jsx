@@ -97,7 +97,12 @@ const SignIn = () => {
             //         withCredentials: true,
             //     },
             // }); //TODO
-            const res = await axios.post(`/SignIn`, formData);
+
+            let res;
+            //check if the project is in version production or development
+            process.env.NODE_ENV === 'production' ?
+                res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData) :
+                res = await axios.post(`/SignIn`, formData);
             if (res.data?.msg === "User does not exist") {
                 setFlag(true);
                 return setText("User does not exist");
