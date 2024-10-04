@@ -4,8 +4,8 @@ const createServer = (server) => {
     // Initialize Socket.IO with CORS settings
     const io = new Server(server, {
         cors: {
-            // origin: "https://jamoveo-frontend-s3iw.onrender.com"  //allow requests from the frontend TODO
-            origin: "*", //allow requests from the frontend TODO
+            origin: "https://jamoveo-frontend-s3iw.onrender.com",  //allow requests from the frontend TODO
+            // origin: "*", //allow requests from the frontend TODO
             methods: ["GET", "POST"],
             credentials: true
         }
