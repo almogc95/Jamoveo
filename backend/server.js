@@ -37,13 +37,13 @@ mongoose.connection.on('error', (err) => {
 
 //CORS setup
 //TODO
-app.use(cors({
-    origin: '*',
-    // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-    // allowedHeaders: ['Content-Type', 'Authorization'],
-    credentials: true,
+// app.use(cors({
+//     origin: '*',
+//     // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+//     // allowedHeaders: ['Content-Type', 'Authorization'],
+//     credentials: true,
 
-}));
+// }));
 
 // create the proxy
 const proxyMiddleware = createProxyMiddleware({
