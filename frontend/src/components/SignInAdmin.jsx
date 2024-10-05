@@ -93,7 +93,7 @@ const SignInAdmin = () => {
         try {
             let res;
             //check if the project is in version production or development
-            process.env.NODE_ENV === 'production' ?
+            process.env.PROJECT_MODE_BACKEND === 'production' ?
                 res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignInAdmin`, formData) :
                 res = await axios.post(`/SignInAdmin`, formData);
 

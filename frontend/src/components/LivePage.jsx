@@ -17,7 +17,7 @@ import { AuthContextAdmin } from '../../src/context/AuthContextAdmin';
 //import axios
 import axios from '../axiosHTTPrequests';
 
-const socket = io(process.env.NODE_ENV === 'production' ? 'https://jamoveo-backend-al1u.onrender.com' : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
+const socket = io(process.env.PROJECT_MODE_BACKEND === 'production' ? 'https://jamoveo-backend-al1u.onrender.com' : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
 
 const LivePage = () => {
     const navigate = useNavigate();
@@ -63,7 +63,7 @@ const LivePage = () => {
             try {
                 let res;
                 //check if the project is in version production or development
-                process.env.NODE_ENV === 'production' ?
+                process.env.PROJECT_MODE_BACKEND === 'production' ?
                     res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${songId}`) :
                     res = await axios.get(`/LivePage/${songId}`);
                 setSong(res.data); // Set the song data in state

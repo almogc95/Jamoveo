@@ -100,7 +100,7 @@ const SignIn = () => {
 
             let res;
             //check if the project is in version production or development
-            process.env.NODE_ENV === 'production' ?
+            process.env.PROJECT_MODE_BACKEND === 'production' ?
                 res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData, {
                     withCredentials: true // This ensures cookies/credentials are included in the request
                 }) :

@@ -58,7 +58,7 @@ const SignUp = () => {
         try {
             let res;
             //check if the project is in version production or development
-            process.env.NODE_ENV === 'production' ?
+            process.env.PROJECT_MODE_BACKEND === 'production' ?
                 res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignUp`, formData) :
                 res = await axios.post(`/SignUp`, formData);
 
