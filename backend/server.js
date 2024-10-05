@@ -5,7 +5,8 @@ import { dirname } from 'path';
 import mongoose from "mongoose";
 import router from './src/routes/project_router.js';
 import { } from 'dotenv/config';
-import { createProxyMiddleware } from "http-proxy-middleware"; //for the CORS error
+import { createProxyMiddleware } from "http-proxy-middleware"; //for the CORS error //TODO
+import cors from 'cors';
 //import for SOCKET
 import http from 'http';
 import createServer from "./sockets/createServer.js";
@@ -37,22 +38,22 @@ mongoose.connection.on('error', (err) => {
 
 //CORS setup
 //TODO
-// app.use(cors({
-//     origin: '*',
-//     // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
-//     // allowedHeaders: ['Content-Type', 'Authorization'],
-//     credentials: true,
+app.use(cors({
+    origin: '*',
+    // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    // allowedHeaders: ['Content-Type', 'Authorization'],
+    // credentials: true,
 
-// }));
+}));
 
 // create the proxy
-const proxyMiddleware = createProxyMiddleware({
-    target: 'https://jamoveo-backend-al1u.onrender.com', //target host with the same base path
-    changeOrigin: true, //needed for virtual hosted sites
-});
+// const proxyMiddleware = createProxyMiddleware({
+//     target: 'https://jamoveo-backend-al1u.onrender.com', //target host with the same base path
+//     changeOrigin: true, //needed for virtual hosted sites
+// });
 
 
-app.use('/api', proxyMiddleware);//use proxy for API requests
+// app.use('/api', proxyMiddleware);//use proxy for API requests
 app.use(express.static(path.join(__dirname, 'public'))); //middleware for handling access to files in the public folder
 app.use(express.urlencoded({ extended: true })); //middleware for handling POST requests
 app.use(express.json()); //middleware for convert data to JSON
