@@ -24,7 +24,8 @@ const MONGODB_URI = process.env.MONGODB_URI;
 //connect to MongoDB Atlas
 mongoose.connect(MONGODB_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    ssl: true
 });
 
 //mongoDB Connection Handling
