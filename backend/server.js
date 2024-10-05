@@ -39,10 +39,10 @@ mongoose.connection.on('error', (err) => {
 //CORS setup
 //TODO
 app.use(cors({
-    origin: '*',
+    origin: true,
     // methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
     // allowedHeaders: ['Content-Type', 'Authorization'],
-    // credentials: true,
+    credentials: true,
 
 }));
 
