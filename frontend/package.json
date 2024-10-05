@@ -45,5 +45,6 @@
   "main": "index.js",
   "keywords": [],
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "proxy": "https://jamoveo-frontend-s3iw.onrender.com"
 }

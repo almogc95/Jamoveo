@@ -39,7 +39,9 @@ mongoose.connection.on('error', (err) => {
 //CORS setup
 //TODO
 app.use(cors({
-    origin: "*",
+    origin: 'https://jamoveo-frontend-s3iw.onrender.com',
+    methods: 'GET,POST,PUT,DELETE',
+    allowedHeaders: 'Content-Type,Authorization'
 }));
 
 // create the proxy
