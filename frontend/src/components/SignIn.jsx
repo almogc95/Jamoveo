@@ -105,6 +105,8 @@ const SignIn = () => {
                     withCredentials: true // This ensures cookies/credentials are included in the request
                 }) :
                 res = await axios.post(`/SignIn`, formData);
+            console.log('res', res);
+
             if (res.data?.msg === "User does not exist") {
                 setFlag(true);
                 return setText("User does not exist");
