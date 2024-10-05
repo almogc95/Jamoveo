@@ -8,7 +8,6 @@ const createServer = (server) => {
             // origin: "*", //allow requests from the frontend TODO
             methods: ["GET", "POST"],
             credentials: true,
-            allowedHeaders: ["Access-Control-Allow-Origin", "Authorization", "Content-Type"],  //include allowed headers
         }
     });
 

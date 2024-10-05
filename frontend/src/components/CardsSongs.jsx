@@ -14,7 +14,9 @@ import { io } from 'socket.io-client';
 //import axios
 import axios from '../axiosHTTPrequests';
 
-const socket = io(process.env.NODE_ENV === 'production' ? 'https://jamoveo-backend-al1u.onrender.com' : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
+const socket = io(process.env.NODE_ENV === 'production' ?
+    'https://jamoveo-backend-al1u.onrender.com' :
+    'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
 
 
 const CardsSongs = (props) => {
@@ -24,7 +26,9 @@ const CardsSongs = (props) => {
     const handleClick = async (e) => {
         e.preventDefault();
         try {
-            process.env.NODE_ENV === 'production' ? await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${props.songId}`) : await axios.get(`/LivePage/${props.songId}`); //check if the project is in version production or development
+            process.env.NODE_ENV === 'production' ?
+                await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${props.songId}`) :
+                await axios.get(`/LivePage/${props.songId}`); //check if the project is in version production or development
             const songData = { songId: props.songId, songName: props.songName, songArtist: props.songArtist, songImage: props.songImage }
             //emit an event to all connected users to navigate to the selected song
             socket.emit('adminSelectSong', songData);
