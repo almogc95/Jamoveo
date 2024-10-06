@@ -33,7 +33,7 @@ const LivePage = () => {
     const adminLocalStorageName = adminObject.adminname;
 
     let isAdmin = admin && adminLocalStorageName === "" ? false : true;
-
+    console.log("user.instrument", user.instrument);
     //handle the quit event broadcasted from the server
     useEffect(() => {
         socket.on('quitGame', () => {
