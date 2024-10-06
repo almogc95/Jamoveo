@@ -56,11 +56,10 @@ const SignUp = () => {
             return;
         }
         try {
-            let res;
             //check if the project is in version production or development
-            process.env.PROJECT_MODE === 'production' ?
-                res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignUp`, formData) :
-                res = await axios.post(`/SignUp`, formData);
+            const res = process.env.REACT_APP_PROJECT_MODE === 'production'
+                ? await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignUp`, formData)
+                : await axios.post(`/SignUp`, formData);
 
             if (res.data?.msg === "User already exists") {
                 setFlag(true);

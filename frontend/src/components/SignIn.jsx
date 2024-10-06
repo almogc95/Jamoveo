@@ -91,7 +91,7 @@ const SignIn = () => {
         }
         try {
             //check if the project is in version production or development
-            const res = process.env.PROJECT_MODE === 'production'
+            const res = process.env.REACT_APP_PROJECT_MODE === 'production'
                 ? await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData)
                 : await axios.post(`/SignIn`, formData);
             console.log('res', res);

@@ -91,11 +91,10 @@ const SignUpAdmin = () => {
         }
 
         try {
-            let res;
             //check if the project is in version production or development
-            process.env.PROJECT_MODE === 'production' ?
-                res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignUpAdmin`, formData) :
-                res = await axios.post(`/SignUpAdmin`, formData);
+            const res = process.env.REACT_APP_PROJECT_MODE === 'production' ?
+                await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignUpAdmin`, formData) :
+                await axios.post(`/SignUpAdmin`, formData);
 
             if (res.data?.msg === "Admin already exists") {
                 setFlag(true);

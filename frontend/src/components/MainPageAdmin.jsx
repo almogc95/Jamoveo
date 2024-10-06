@@ -48,11 +48,10 @@ const MainPageAdmin = () => {
         }
 
         try {
-            let res;
             //check if the project is in version production or development
-            process.env.PROJECT_MODE === 'production' ?
-                res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/ResultsPageAdmin`, { params: { song: formDataSearch.searchData } }) :
-                res = await axios.get(`/ResultsPageAdmin`, { params: { song: formDataSearch.searchData } });
+            const res = process.env.REACT_APP_PROJECT_MODE === 'production'
+                ? await axios.get(`${process.env.REACT_APP_BACKEND_URL}/ResultsPageAdmin`, { params: { song: formDataSearch.searchData } })
+                : await axios.get(`/ResultsPageAdmin`, { params: { song: formDataSearch.searchData } });
             setFormDataSearch(initialFormDataSearch);
 
             //navigate to ResultsPageAdmin and pass search results

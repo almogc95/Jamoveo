@@ -17,7 +17,7 @@ import { AuthContextAdmin } from '../context/AuthContextAdmin';
 //import axios
 import axios from '../axiosHTTPrequests';
 
-const socket = io(process.env.PROJECT_MODE === 'production' ? process.env.REACT_APP_BACKEND_URL : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
+const socket = io(process.env.REACT_APP_PROJECT_MODE === 'production' ? process.env.REACT_APP_BACKEND_URL : 'http://127.0.0.1:8080'); //react app's deployed URL/SOCKET URL
 
 const LivePage = () => {
     const navigate = useNavigate();
@@ -56,11 +56,10 @@ const LivePage = () => {
         const fetchSong = async () => {
 
             try {
-                let res;
                 //check if the project is in version production or development
-                process.env.PROJECT_MODE === 'production' ?
-                    res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${songId}`) :
-                    res = await axios.get(`/LivePage/${songId}`);
+                const res = process.env.REACT_APP_PROJECT_MODE === 'production'
+                    ? await axios.get(`${process.env.REACT_APP_BACKEND_URL}/LivePage/${songId}`)
+                    : await axios.get(`/LivePage/${songId}`);
                 setSong(res.data); // Set the song data in state
             } catch (err) {
                 setError(err.response.data.message); // Set error message if song is not found
