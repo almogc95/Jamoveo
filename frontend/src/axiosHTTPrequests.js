@@ -1,9 +1,6 @@
 import axios from 'axios';
 
-//TODO
-let API_URL;
-
-process.env.PROJECT_MODE === 'production' ?
+const API_URL = process.env.PROJECT_MODE === 'production' ?
     API_URL = process.env.REACT_APP_BACKEND_URL :
     API_URL = 'http://localhost:8080'
 
