@@ -12,7 +12,7 @@ import { io } from 'socket.io-client';
 
 //import components
 import { AuthContext } from '../context/AuthContext';
-import { AuthContextAdmin } from '../context/AuthContextAdmin';
+import { AuthContextAdmin } from '../../src/context/AuthContextAdmin';
 
 //import axios
 import axios from '../axiosHTTPrequests';
@@ -28,28 +28,29 @@ const LivePage = () => {
     const [error, setError] = useState(null); //setting error if accord
     const [isScrolling, setIsScrolling] = useState(false); //use this line for scrolling
 
-    // Retrieve user and admin info from local storage
-    const userLocalStorageInfo = localStorage.getItem('user');
-    const adminLocalStorageInfo = localStorage.getItem('admin');
-
-    const userObject = userLocalStorageInfo ? JSON.parse(userLocalStorageInfo) : null;
+    const adminLocalStorageInfo = localStorage.getItem('admin'); //for admin
     const adminObject = adminLocalStorageInfo ? JSON.parse(adminLocalStorageInfo) : null;
+    const adminLocalStorageName = adminObject?.adminname;
 
-    // Determine if the current session is for an admin
-    const isAdmin = adminObject !== null;
+    let flag = admin && admin.adminname === adminLocalStorageName ? true : false;
+
+    //check if the user is admin
+    if (!flag) {
+        flag = adminObject ? true : false;
+    }
 
     //handle the quit event broadcasted from the server
     useEffect(() => {
         socket.on('quitGame', () => {
             //redirect to main page when the quit event is received
-            isAdmin ? navigate("/MainPageAdmin") : navigate("/MainPagePlayer")
+            flag ? navigate("/MainPageAdmin") : navigate("/MainPagePlayer")
         });
 
         //cleanup socket event listener on component unmount
         return () => {
             socket.off('quitGame');
         };
-    }, [isAdmin, navigate]);
+    }, [flag, navigate]);
 
     //function to handle admin quitting the game
     const handleQuit = () => {
@@ -128,7 +129,7 @@ const LivePage = () => {
                                 {lineArray.map((line, index) => (
                                     <span key={index}>
                                         &emsp;
-                                        {user.instrument === "Vocals" && !isAdmin ? (
+                                        {user.instrument === "Vocals" && !flag ? (
                                             line.lyrics
                                         ) : (
                                             <>
@@ -149,7 +150,7 @@ const LivePage = () => {
                     {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
                 </Button>
                 {/* show the "Quit" button only if the user is an admin */}
-                {isAdmin && (
+                {flag && (
                     <Button variant="contained" color="error" onClick={handleQuit}>
                         Quit
                     </Button>
