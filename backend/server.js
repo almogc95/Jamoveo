@@ -59,4 +59,9 @@ app.use(express.json()); //middleware for convert data to JSON
 app.use('/', router); //server routes
 
 createServer(server);
+
+app.get('*', (req, res) => {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
+});
+
 server.listen(PORT, () => console.log(`Listen on port ${PORT}`));
