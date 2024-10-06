@@ -28,18 +28,25 @@ const LivePage = () => {
     const [error, setError] = useState(null); //setting error if accord
     const [isScrolling, setIsScrolling] = useState(false); //use this line for scrolling
 
-    // Retrieve user and admin info from local storage
-    const userLocalStorageInfo = localStorage.getItem('user');
     const adminLocalStorageInfo = localStorage.getItem('admin');
-    console.log("userLocalStorageInfo", userLocalStorageInfo);
-    console.log("adminLocalStorageInfo", adminLocalStorageInfo);
+    const adminObject = JSON.parse(adminLocalStorageInfo);
+    const adminLocalStorageName = adminObject.adminname;
 
-    const userObject = userLocalStorageInfo ? JSON.parse(userLocalStorageInfo) : null;
-    const adminObject = adminLocalStorageInfo ? JSON.parse(adminLocalStorageInfo) : null;
+    let isAdmin = admin && adminLocalStorageName !== "" ? true : false;
 
-    // Determine if the current session is for an admin
-    const isAdmin = admin || adminObject !== null;
-    console.log("isAdmin", isAdmin);
+
+    // // Retrieve user and admin info from local storage
+    // const userLocalStorageInfo = localStorage.getItem('user');
+    // const adminLocalStorageInfo = localStorage.getItem('admin');
+    // console.log("userLocalStorageInfo", userLocalStorageInfo);
+    // console.log("adminLocalStorageInfo", adminLocalStorageInfo);
+
+    // const userObject = userLocalStorageInfo ? JSON.parse(userLocalStorageInfo) : null;
+    // const adminObject = adminLocalStorageInfo ? JSON.parse(adminLocalStorageInfo) : null;
+
+    // // Determine if the current session is for an admin
+    // const isAdmin = admin || adminObject !== null;
+    // console.log("isAdmin", isAdmin);
 
     //handle the quit event broadcasted from the server
     useEffect(() => {
