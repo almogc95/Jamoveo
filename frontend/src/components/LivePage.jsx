@@ -117,15 +117,15 @@ const LivePage = () => {
                 {/* scrolling lyrics container */}
                 <Box
                     sx={{
-                        height: '300px', // Fixed height to create a scrollable container
-                        overflow: 'auto', // Hide scroll bar and control scroll manually
+                        height: '300px', //fixed height to create a scrollable container
+                        overflow: 'auto',
                         position: 'relative',
                     }}
                 >
                     <Box
                         sx={{
-                            transform: `translateY(-${scrollPosition}px)`, // Move content upwards based on scroll position
-                            transition: 'transform 0.1s linear', // Smooth scrolling effect
+                            // transform: `translateY(-${scrollPosition}px)`, //move content upwards based on scroll position
+                            // transition: 'transform 0.1s linear', //smooth scrolling effect
                         }}
                     >
                         {song.songLyrics.map((lineArray, lineIndex) => {
