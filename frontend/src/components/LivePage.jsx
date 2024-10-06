@@ -38,7 +38,7 @@ const LivePage = () => {
     const adminObject = adminLocalStorageInfo ? JSON.parse(adminLocalStorageInfo) : null;
 
     // Determine if the current session is for an admin
-    const isAdmin = adminObject !== null;
+    const isAdmin = admin || adminObject !== null;
     console.log("isAdmin", isAdmin);
 
     //handle the quit event broadcasted from the server
