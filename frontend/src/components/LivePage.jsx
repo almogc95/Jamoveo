@@ -32,7 +32,7 @@ const LivePage = () => {
     const adminObject = JSON.parse(adminLocalStorageInfo);
     const adminLocalStorageName = adminObject.adminname;
 
-    let isAdmin = admin && adminLocalStorageName !== "" ? true : false;
+    let isAdmin = admin && adminLocalStorageName === "" ? false : true;
 
 
     // // Retrieve user and admin info from local storage
