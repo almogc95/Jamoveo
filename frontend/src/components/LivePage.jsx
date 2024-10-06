@@ -34,20 +34,6 @@ const LivePage = () => {
 
     let isAdmin = admin && adminLocalStorageName === "" ? false : true;
 
-
-    // // Retrieve user and admin info from local storage
-    // const userLocalStorageInfo = localStorage.getItem('user');
-    // const adminLocalStorageInfo = localStorage.getItem('admin');
-    // console.log("userLocalStorageInfo", userLocalStorageInfo);
-    // console.log("adminLocalStorageInfo", adminLocalStorageInfo);
-
-    // const userObject = userLocalStorageInfo ? JSON.parse(userLocalStorageInfo) : null;
-    // const adminObject = adminLocalStorageInfo ? JSON.parse(adminLocalStorageInfo) : null;
-
-    // // Determine if the current session is for an admin
-    // const isAdmin = admin || adminObject !== null;
-    // console.log("isAdmin", isAdmin);
-
     //handle the quit event broadcasted from the server
     useEffect(() => {
         socket.on('quitGame', () => {
