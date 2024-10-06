@@ -30,9 +30,9 @@ const LivePage = () => {
 
     const adminLocalStorageInfo = localStorage.getItem('admin');
     const adminObject = JSON.parse(adminLocalStorageInfo);
-    const adminLocalStorageName = adminObject.adminname;
+    const adminLocalStorageName = adminObject.adminname ? adminObject.adminname : '';
 
-    let isAdmin = admin && adminLocalStorageName === "" ? false : true;
+    let isAdmin = admin || adminLocalStorageName !== "";
     console.log("user.instrument", user.instrument);
     //handle the quit event broadcasted from the server
     useEffect(() => {
@@ -123,7 +123,7 @@ const LivePage = () => {
                                 {lineArray.map((line, index) => (
                                     <span key={index}>
                                         &emsp;
-                                        {user.instrument === "Vocals" && isAdmin ? (
+                                        {user.instrument === "Vocals" && !isAdmin ? (
                                             line.lyrics
                                         ) : (
                                             <>
