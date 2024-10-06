@@ -90,20 +90,10 @@ const SignIn = () => {
             return;
         }
         try {
-            // const res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData, {
-            //     headers: { //try to fix CORS issue 
-            //         'Content-Type': 'application/json',
-            //         'Access-Control-Allow-Origin': 'https://jamoveo-backend-al1u.onrender.com/SignIn',
-            //         withCredentials: true,
-            //     },
-            // }); //TODO
-
             let res;
             //check if the project is in version production or development
             process.env.PROJECT_MODE_BACKEND === 'production' ?
-                res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData, {
-                    withCredentials: true // This ensures cookies/credentials are included in the request
-                }) :
+                res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData) :
                 res = await axios.post(`/SignIn`, formData);
             console.log('res', res);
 
