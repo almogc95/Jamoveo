@@ -118,7 +118,7 @@ const LivePage = () => {
                 <Box
                     sx={{
                         height: '300px', // Fixed height to create a scrollable container
-                        overflow: 'hidden', // Hide scroll bar and control scroll manually
+                        overflow: 'auto', // Hide scroll bar and control scroll manually
                         position: 'relative',
                     }}
                 >
