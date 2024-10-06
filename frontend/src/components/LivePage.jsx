@@ -27,7 +27,7 @@ const LivePage = () => {
     const [song, setSong] = useState(null); //getting info about user for checking instrument
     const [error, setError] = useState(null); //setting error if accord
     const [isScrolling, setIsScrolling] = useState(false); //use this line for scrolling
-    const [displayedLines, setDisplayedLines] = useState(3); // Start with 3 lines displayed
+    const scrollRef = useRef(null); // Ref for the scrollable lyrics box
 
     const adminLocalStorageInfo = localStorage.getItem('admin');
     const adminObject = JSON.parse(adminLocalStorageInfo);
@@ -73,15 +73,11 @@ const LivePage = () => {
         let scrollInterval;
 
         const startScrolling = () => {
-            scrollInterval = setInterval(() => {
-                setDisplayedLines(prev => {
-                    if (prev < song.songLyrics.length) {
-                        return prev + 1; //show one more line on each interval
-                    } else {
-                        return prev; //stop scrolling once all lines are visible
-                    }
-                });
-            }, 120); //speed
+            if (scrollRef.current) {
+                scrollInterval = setInterval(() => {
+                    scrollRef.current.scrollBy(0, 1); // Scroll down by 1 pixel every interval
+                }, 20); // Speed of scroll can be adjusted (20ms for smoother scroll)
+            }
         };
 
         if (isScrolling) {
@@ -91,7 +87,7 @@ const LivePage = () => {
         }
 
         return () => clearInterval(scrollInterval);
-    }, [isScrolling, song]);
+    }, [isScrolling]);
 
     const isHebrew = (text) => /^[\u0590-\u05fe]+$/i.test(text); //checking if the song is in Hebrew and use it to change direction of the text
 
@@ -125,8 +121,10 @@ const LivePage = () => {
                 <Typography variant="h5" sx={{ fontSize: '35px' }}>{song.songName} | {song.songArtist}</Typography> {/* display song name */}
                 {/* scrolling lyrics container */}
                 <Box
-                    sx={{ overflowY: 'auto', height: '100%' }}> {/* Scrollable box for song lines */}
-                    {song.songLyrics.slice(0, displayedLines).map((lineArray, lineIndex) => {
+                    ref={scrollRef} // Scrollable box for song lines
+                    sx={{ overflowY: 'auto', height: '350px' }} // Height limit for scrollable area
+                >
+                    {song.songLyrics.map((lineArray, lineIndex) => {
                         const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
                         return (
                             <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
