@@ -28,15 +28,15 @@ const LivePage = () => {
     const [error, setError] = useState(null); //setting error if accord
     const [isScrolling, setIsScrolling] = useState(false); //use this line for scrolling
 
-    const adminLocalStorageInfo = localStorage.getItem('admin'); //for admin
-    const adminObject = adminLocalStorageInfo ? JSON.parse(adminLocalStorageInfo) : null;
-    const adminLocalStorageName = adminObject?.adminname;
+    const userLocalStorageInfo = localStorage.getItem('user');
+    const userObject = JSON.parse(userLocalStorageInfo);
+    const userLocalStorageName = userObject.username || userObject.adminname;
 
-    let flag = admin && admin.adminname === adminLocalStorageName ? true : false;
+    let flag = admin && admin.adminname === userLocalStorageName ? true : false;
 
     //check if the user is admin
     if (!flag) {
-        flag = adminObject ? true : false;
+        flag = userObject && userObject.adminname ? true : false;
     }
 
     //handle the quit event broadcasted from the server

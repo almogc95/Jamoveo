@@ -8,7 +8,7 @@ const initAdmin = {
 }
 
 const getInitialStateAdmin = () => {
-    const admin = localStorage.getItem("user");
+    const admin = localStorage.getItem("admin");
     console.log("Local storage admin", admin)
     return admin ? JSON.parse(admin) : initAdmin;
 }
@@ -19,7 +19,7 @@ const AuthContextProviderAdmin = (props) => {
     const [admin, setAdmin] = useState(getInitialStateAdmin);
 
     useEffect(() => {
-        localStorage.setItem("user", JSON.stringify(admin));
+        localStorage.setItem("admin", JSON.stringify(admin));
     }, [admin]);
 
     const adminLogin = (adminname, adminpassword) => {
