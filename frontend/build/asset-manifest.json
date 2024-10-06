@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e6c13ad2.css",
+    "main.js": "/static/js/main.f9ea495c.js",
+    "static/js/453.41837b60.chunk.js": "/static/js/453.41837b60.chunk.js",
+    "static/media/defaultSongImage.jpg": "/static/media/defaultSongImage.2a0e02dcce32e9fd7653.jpg",
+    "static/media/rehearsal.jpg": "/static/media/rehearsal.126c33a3717e285a54ef.jpg",
+    "index.html": "/index.html",
+    "main.e6c13ad2.css.map": "/static/css/main.e6c13ad2.css.map",
+    "main.f9ea495c.js.map": "/static/js/main.f9ea495c.js.map",
+    "453.41837b60.chunk.js.map": "/static/js/453.41837b60.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.f9ea495c.js"
+  ]
+}
