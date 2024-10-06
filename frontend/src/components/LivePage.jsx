@@ -123,7 +123,7 @@ const LivePage = () => {
                                 {lineArray.map((line, index) => (
                                     <span key={index}>
                                         &emsp;
-                                        {user.instrument === "Vocals" && !isAdmin ? (
+                                        {user.instrument === "Vocals" && isAdmin ? (
                                             line.lyrics
                                         ) : (
                                             <>
