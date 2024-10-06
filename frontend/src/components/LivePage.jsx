@@ -27,7 +27,7 @@ const LivePage = () => {
     const [song, setSong] = useState(null); //getting info about user for checking instrument
     const [error, setError] = useState(null); //setting error if accord
     const [isScrolling, setIsScrolling] = useState(false); //use this line for scrolling
-    const [scrollPosition, setScrollPosition] = useState(0); // Track scroll position
+    const [scrollPosition, setScrollPosition] = useState(0); //manual scroll position
 
     const adminLocalStorageInfo = localStorage.getItem('admin');
     const adminObject = JSON.parse(adminLocalStorageInfo);
@@ -116,36 +116,44 @@ const LivePage = () => {
                 <Typography variant="h5" sx={{ fontSize: '35px' }}>{song.songName} | {song.songArtist}</Typography> {/* display song name */}
                 {/* scrolling lyrics container */}
                 <Box
-                    id="lyrics-container"
                     sx={{
                         height: '300px', // Fixed height to create a scrollable container
-                        overflowY: 'auto', // Enable vertical scrolling
+                        overflow: 'hidden', // Hide scroll bar and control scroll manually
+                        position: 'relative',
                     }}
                 >
-                    {song.songLyrics.map((lineArray, lineIndex) => {
-                        const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
-                        return (
-                            <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
-                                {lineArray.map((line, index) => (
-                                    <span key={index}>
-                                        &emsp;
-                                        {user.instrument === 'Vocals' && !isAdmin ? (
-                                            line.lyrics
-                                        ) : (
-                                            <>
-                                                {line.lyrics} {line.chords && <span>({line.chords})</span>}{' '}
-                                            </>
-                                        )}
-                                    </span>
-                                ))}
-                            </Typography>
-                        );
-                    })}
+                    <Box
+                        sx={{
+                            transform: `translateY(-${scrollPosition}px)`, // Move content upwards based on scroll position
+                            transition: 'transform 0.1s linear', // Smooth scrolling effect
+                        }}
+                    >
+                        {song.songLyrics.map((lineArray, lineIndex) => {
+                            const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
+                            return (
+                                <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
+                                    {lineArray.map((line, index) => (
+                                        <span key={index}>
+                                            &emsp;
+                                            {user.instrument === 'Vocals' && !isAdmin ? (
+                                                line.lyrics
+                                            ) : (
+                                                <>
+                                                    {line.lyrics} {line.chords && <span>({line.chords})</span>}{' '}
+                                                </>
+                                            )}
+                                        </span>
+                                    ))}
+                                </Typography>
+                            );
+                        })}
+                    </Box>
                 </Box>
 
                 <Button variant="contained" onClick={() => setIsScrolling((prev) => !prev)}>
                     {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
                 </Button>
+
 
                 {/* show the "Quit" button only if the user is an admin */}
                 {isAdmin && (
