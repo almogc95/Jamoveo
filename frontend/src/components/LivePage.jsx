@@ -74,8 +74,8 @@ const LivePage = () => {
 
         const startScrolling = () => {
             scrollInterval = setInterval(() => {
-                setScrollPosition(prev => prev + 1); // Increase the scroll position in state
-            }, 50); // Speed of scrolling
+                setScrollPosition((prev) => prev + 1); //update the scroll position
+            }, 120); //scroll speed
         };
 
         if (isScrolling) {
@@ -116,48 +116,34 @@ const LivePage = () => {
                 <Typography variant="h5" sx={{ fontSize: '35px' }}>{song.songName} | {song.songArtist}</Typography> {/* display song name */}
                 {/* scrolling lyrics container */}
                 <Box
+                    id="lyrics-container"
                     sx={{
-                        maxHeight: '400px',
-                        overflow: 'hidden', // Hide scrollbar
-                        mt: 2,
-                        px: 2,
-                        py: 1,
-                        border: '1px solid gray',
-                        position: 'relative', // Use position relative for absolute positioning
+                        height: '300px', // Fixed height to create a scrollable container
+                        overflowY: 'auto', // Enable vertical scrolling
                     }}
                 >
-                    <Box
-                        sx={{
-                            transform: `translateY(-${scrollPosition}px)`, // Translate the content based on scroll position
-                            transition: 'transform 0.1s linear', // Smooth scrolling effect
-                        }}
-                    >
-                        {song.songLyrics.map((lineArray, lineIndex) => {
-                            const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
-                            return (
-                                <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
-                                    {lineArray.map((line, index) => (
-                                        <span key={index}>
-                                            &emsp;
-                                            {user.instrument === "Vocals" && !isAdmin ? (
-                                                line.lyrics
-                                            ) : (
-                                                <>
-                                                    {line.lyrics} {line.chords && <span>({line.chords})</span>}{" "}
-                                                </>
-                                            )}
-                                        </span>
-                                    ))}
-                                </Typography>
-                            );
-                        })}
-                    </Box>
+                    {song.songLyrics.map((lineArray, lineIndex) => {
+                        const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
+                        return (
+                            <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
+                                {lineArray.map((line, index) => (
+                                    <span key={index}>
+                                        &emsp;
+                                        {user.instrument === 'Vocals' && !isAdmin ? (
+                                            line.lyrics
+                                        ) : (
+                                            <>
+                                                {line.lyrics} {line.chords && <span>({line.chords})</span>}{' '}
+                                            </>
+                                        )}
+                                    </span>
+                                ))}
+                            </Typography>
+                        );
+                    })}
                 </Box>
 
-                {/* Scrolling Button */}
-                <Button
-                    variant="contained"
-                    onClick={() => setIsScrolling(prev => !prev)}>
+                <Button variant="contained" onClick={() => setIsScrolling((prev) => !prev)}>
                     {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
                 </Button>
 
