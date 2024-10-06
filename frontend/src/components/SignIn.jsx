@@ -90,11 +90,10 @@ const SignIn = () => {
             return;
         }
         try {
-            let res;
             //check if the project is in version production or development
-            process.env.PROJECT_MODE === 'production' ?
-                res = await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData) :
-                res = await axios.post(`/SignIn`, formData);
+            const res = process.env.PROJECT_MODE === 'production'
+                ? await axios.post(`${process.env.REACT_APP_BACKEND_URL}/SignIn`, formData)
+                : await axios.post(`/SignIn`, formData);
             console.log('res', res);
 
             if (res.data?.msg === "User does not exist") {
