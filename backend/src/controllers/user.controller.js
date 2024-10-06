@@ -61,6 +61,7 @@ export const handleSignIn = async (req, res) => {
 
         // Check if user exists 
         const user = await UserModel.findOne({ userName: username });
+        console.log("user", user);
         if (!user) {
             return res.send({ msg: 'User does not exist' });
         }
