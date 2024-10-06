@@ -113,13 +113,13 @@ const LivePage = () => {
                 gap: 2,
                 textAlign: 'center'
             }}>
-                <Typography variant="h5" sx={{ fontSize: '30px' }}>{song.songName} | {song.songArtist}</Typography> {/* display song name */}
+                <Typography variant="h5" sx={{ fontSize: '35px' }}>{song.songName} | {song.songArtist}</Typography> {/* display song name */}
                 <Box>
                     {song.songLyrics.map((lineArray, lineIndex) => {
                         //change the direction based on the first lyric
                         const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
                         return (
-                            <Typography key={lineIndex} variant="body1" sx={{ fontSize: '25px' }} dir={dir}>
+                            <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
                                 {lineArray.map((line, index) => (
                                     <span key={index}>
                                         &emsp;
@@ -136,13 +136,12 @@ const LivePage = () => {
                             </Typography>
                         );
                     })}
-
+                    <Button
+                        variant="contained"
+                        onClick={() => setIsScrolling(prev => !prev)}>
+                        {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
+                    </Button>
                 </Box>
-                <Button
-                    variant="contained"
-                    onClick={() => setIsScrolling(prev => !prev)}>
-                    {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
-                </Button>
                 {/* show the "Quit" button only if the user is an admin */}
                 {isAdmin && (
                     <Button variant="contained" color="error" onClick={handleQuit}>
