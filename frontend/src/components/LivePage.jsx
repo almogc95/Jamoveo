@@ -27,6 +27,7 @@ const LivePage = () => {
     const [song, setSong] = useState(null); //getting info about user for checking instrument
     const [error, setError] = useState(null); //setting error if accord
     const [isScrolling, setIsScrolling] = useState(false); //use this line for scrolling
+    const [scrollPosition, setScrollPosition] = useState(0); // Track scroll position
 
     const adminLocalStorageInfo = localStorage.getItem('admin');
     const adminObject = JSON.parse(adminLocalStorageInfo);
@@ -73,8 +74,8 @@ const LivePage = () => {
 
         const startScrolling = () => {
             scrollInterval = setInterval(() => {
-                window.scrollBy(0, 1); //scroll down by 1 pixel
-            }, 50); //scroll speed
+                setScrollPosition(prev => prev + 1); // Increase the scroll position in state
+            }, 50); // Speed of scrolling
         };
 
         if (isScrolling) {
@@ -114,32 +115,51 @@ const LivePage = () => {
             }}>
                 <Typography variant="h5" sx={{ fontSize: '35px' }}>{song.songName} | {song.songArtist}</Typography> {/* display song name */}
                 {/* scrolling lyrics container */}
-                <Box>
-                    {song.songLyrics.map((lineArray, lineIndex) => {
-                        const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
-                        return (
-                            <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
-                                {lineArray.map((line, index) => (
-                                    <span key={index}>
-                                        &emsp;
-                                        {user.instrument === "Vocals" && !isAdmin ? (
-                                            line.lyrics
-                                        ) : (
-                                            <>
-                                                {line.lyrics} {line.chords && <span>({line.chords})</span>}{" "}
-                                            </>
-                                        )}
-                                    </span>
-                                ))}
-                            </Typography>
-                        );
-                    })}
-                    <Button
-                        variant="contained"
-                        onClick={() => setIsScrolling(prev => !prev)}>
-                        {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
-                    </Button>
+                <Box
+                    sx={{
+                        maxHeight: '400px',
+                        overflow: 'hidden', // Hide scrollbar
+                        mt: 2,
+                        px: 2,
+                        py: 1,
+                        border: '1px solid gray',
+                        position: 'relative', // Use position relative for absolute positioning
+                    }}
+                >
+                    <Box
+                        sx={{
+                            transform: `translateY(-${scrollPosition}px)`, // Translate the content based on scroll position
+                            transition: 'transform 0.1s linear', // Smooth scrolling effect
+                        }}
+                    >
+                        {song.songLyrics.map((lineArray, lineIndex) => {
+                            const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
+                            return (
+                                <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
+                                    {lineArray.map((line, index) => (
+                                        <span key={index}>
+                                            &emsp;
+                                            {user.instrument === "Vocals" && !isAdmin ? (
+                                                line.lyrics
+                                            ) : (
+                                                <>
+                                                    {line.lyrics} {line.chords && <span>({line.chords})</span>}{" "}
+                                                </>
+                                            )}
+                                        </span>
+                                    ))}
+                                </Typography>
+                            );
+                        })}
+                    </Box>
                 </Box>
+
+                {/* Scrolling Button */}
+                <Button
+                    variant="contained"
+                    onClick={() => setIsScrolling(prev => !prev)}>
+                    {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
+                </Button>
 
                 {/* show the "Quit" button only if the user is an admin */}
                 {isAdmin && (
