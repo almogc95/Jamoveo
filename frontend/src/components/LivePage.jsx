@@ -1,5 +1,5 @@
 //import from react
-import { useState, useEffect, useContext, useRef } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 
 //import libraries from material-ui
@@ -27,7 +27,6 @@ const LivePage = () => {
     const [song, setSong] = useState(null); //getting info about user for checking instrument
     const [error, setError] = useState(null); //setting error if accord
     const [isScrolling, setIsScrolling] = useState(false); //use this line for scrolling
-    const scrollRef = useRef(null); // Ref for the scrollable lyrics box
 
     const adminLocalStorageInfo = localStorage.getItem('admin');
     const adminObject = JSON.parse(adminLocalStorageInfo);
@@ -73,11 +72,9 @@ const LivePage = () => {
         let scrollInterval;
 
         const startScrolling = () => {
-            if (scrollRef.current) {
-                scrollInterval = setInterval(() => {
-                    scrollRef.current.scrollBy(0, 1); // Scroll down by 1 pixel every interval
-                }, 20); // Speed of scroll can be adjusted (20ms for smoother scroll)
-            }
+            scrollInterval = setInterval(() => {
+                window.scrollBy(0, 1); //scroll down by 1 pixel
+            }, 50); //scroll speed
         };
 
         if (isScrolling) {
@@ -114,16 +111,10 @@ const LivePage = () => {
                 flexDirection: 'column',
                 gap: 2,
                 textAlign: 'center',
-                position: 'relative',
-                overflow: 'hidden', //ensures content won't overflow during scrolling
-                height: '500px' //set a fixed height for the box
             }}>
                 <Typography variant="h5" sx={{ fontSize: '35px' }}>{song.songName} | {song.songArtist}</Typography> {/* display song name */}
                 {/* scrolling lyrics container */}
-                <Box
-                    ref={scrollRef} // Scrollable box for song lines
-                    sx={{ overflowY: 'auto', height: '350px' }} // Height limit for scrollable area
-                >
+                <Box>
                     {song.songLyrics.map((lineArray, lineIndex) => {
                         const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
                         return (
@@ -143,13 +134,12 @@ const LivePage = () => {
                             </Typography>
                         );
                     })}
+                    <Button
+                        variant="contained"
+                        onClick={() => setIsScrolling(prev => !prev)}>
+                        {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
+                    </Button>
                 </Box>
-                {/* scroll button */}
-                <Button
-                    variant="contained"
-                    onClick={() => setIsScrolling(prev => !prev)}>
-                    {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
-                </Button>
 
                 {/* show the "Quit" button only if the user is an admin */}
                 {isAdmin && (
