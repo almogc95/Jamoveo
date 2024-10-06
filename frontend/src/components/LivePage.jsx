@@ -27,13 +27,14 @@ const LivePage = () => {
     const [song, setSong] = useState(null); //getting info about user for checking instrument
     const [error, setError] = useState(null); //setting error if accord
     const [isScrolling, setIsScrolling] = useState(false); //use this line for scrolling
+    const [displayedLines, setDisplayedLines] = useState(3); // Start with 3 lines displayed
 
     const adminLocalStorageInfo = localStorage.getItem('admin');
     const adminObject = JSON.parse(adminLocalStorageInfo);
     const adminLocalStorageName = adminObject.adminname;
 
     let isAdmin = admin && adminLocalStorageName === "" ? false : true;
-    console.log("isAdmin", isAdmin)
+
     //handle the quit event broadcasted from the server
     useEffect(() => {
         socket.on('quitGame', () => {
@@ -54,7 +55,6 @@ const LivePage = () => {
 
     useEffect(() => {
         const fetchSong = async () => {
-
             try {
                 //check if the project is in version production or development
                 const res = process.env.REACT_APP_PROJECT_MODE === 'production'
@@ -74,8 +74,14 @@ const LivePage = () => {
 
         const startScrolling = () => {
             scrollInterval = setInterval(() => {
-                window.scrollBy(0, 1); //scroll down by 1 pixel
-            }, 120); //speed scroll
+                setDisplayedLines(prev => {
+                    if (prev < song.songLyrics.length) {
+                        return prev + 1; //show one more line on each interval
+                    } else {
+                        return prev; //stop scrolling once all lines are visible
+                    }
+                });
+            }, 120); //speed
         };
 
         if (isScrolling) {
@@ -85,7 +91,7 @@ const LivePage = () => {
         }
 
         return () => clearInterval(scrollInterval);
-    }, [isScrolling]);
+    }, [isScrolling, song]);
 
     const isHebrew = (text) => /^[\u0590-\u05fe]+$/i.test(text); //checking if the song is in Hebrew and use it to change direction of the text
 
@@ -111,12 +117,16 @@ const LivePage = () => {
                 display: 'flex',
                 flexDirection: 'column',
                 gap: 2,
-                textAlign: 'center'
+                textAlign: 'center',
+                position: 'relative',
+                overflow: 'hidden', //ensures content won't overflow during scrolling
+                height: '500px' //set a fixed height for the box
             }}>
                 <Typography variant="h5" sx={{ fontSize: '35px' }}>{song.songName} | {song.songArtist}</Typography> {/* display song name */}
-                <Box>
-                    {song.songLyrics.map((lineArray, lineIndex) => {
-                        //change the direction based on the first lyric
+                {/* scrolling lyrics container */}
+                <Box
+                    sx={{ overflowY: 'auto', height: '100%' }}> {/* Scrollable box for song lines */}
+                    {song.songLyrics.slice(0, displayedLines).map((lineArray, lineIndex) => {
                         const dir = isHebrew(lineArray[0]?.lyrics) ? 'rtl' : 'ltr';
                         return (
                             <Typography key={lineIndex} variant="body1" sx={{ fontSize: '30px' }} dir={dir}>
@@ -131,17 +141,18 @@ const LivePage = () => {
                                             </>
                                         )}
                                     </span>
-
                                 ))}
                             </Typography>
                         );
                     })}
-                    <Button
-                        variant="contained"
-                        onClick={() => setIsScrolling(prev => !prev)}>
-                        {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
-                    </Button>
                 </Box>
+                {/* scroll button */}
+                <Button
+                    variant="contained"
+                    onClick={() => setIsScrolling(prev => !prev)}>
+                    {isScrolling ? 'Stop Scrolling' : 'Start Scrolling'}
+                </Button>
+
                 {/* show the "Quit" button only if the user is an admin */}
                 {isAdmin && (
                     <Button variant="contained" color="error" onClick={handleQuit}>
