@@ -124,8 +124,8 @@ const LivePage = () => {
                 >
                     <Box
                         sx={{
-                            // transform: `translateY(-${scrollPosition}px)`, //move content upwards based on scroll position
-                            // transition: 'transform 0.1s linear', //smooth scrolling effect
+                            transform: `translateY(-${scrollPosition}px)`, //move content upwards based on scroll position
+                            transition: 'transform 0.1s linear', //smooth scrolling effect
                         }}
                     >
                         {song.songLyrics.map((lineArray, lineIndex) => {
